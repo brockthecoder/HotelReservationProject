@@ -197,7 +197,7 @@ public class SQLStatements {
     public static final String updateReservationDates = "update customer_reservations set check_in_date = ?, check_out_date = ?, total_price = ? where id = ?";
 
     public static final String selectAllAvailability =
-            "select trunc(avg(availability_listings.nightly_rate), 2), room_categories.id, room_categories.name, " +
+            "select round(avg(availability_listings.nightly_rate)::numeric, 2), room_categories.id, room_categories.name, " +
                     "room_categories.description, room_categories.max_occupants, room_categories.hotel_id " +
                     "from availability_listings inner join room_categories on availability_listings.room_category_id = room_categories.id " +
                     "inner join hotels on room_categories.hotel_id = hotels.id " +

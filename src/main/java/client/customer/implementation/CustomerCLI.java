@@ -14,6 +14,7 @@ import client.customer.model.RoomAvailabilityQuery;
 import client.mutual.model.RoomListing;
 import client.mutual.model.builders.CustomerBuilder;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -26,10 +27,12 @@ public class CustomerCLI implements CLI {
 
     CustomerRequestHandler requestHandler;
     Scanner input;
+    DecimalFormat df;
 
     public CustomerCLI() {
         this.requestHandler = new CustomerRequestHandlerImpl();
         this.input = new Scanner(System.in);
+        this.df = new DecimalFormat("0.00");
     }
 
     @Override
@@ -356,7 +359,7 @@ public class CustomerCLI implements CLI {
         }
         if (oldCheckOutDate.compareTo(reservation.getCheckOutDate()) < 0) {
             List<LocalDate> dates = LongStream.range(oldCheckOutDate.toEpochDay(), reservation.getCheckOutDate().toEpochDay()).mapToObj(LocalDate::ofEpochDay).collect(Collectors.toList());
-            double priceToChangeDate = requestHandler.getPriceForExtraNights(dates, reservation);
+            double priceToChangeDate = Double.parseDouble(df.format(requestHandler.getPriceForExtraNights(dates, reservation)));
             if (priceToChangeDate == -1) {
                 System.out.println("Sorry, but there isn't availability for the days you're looking for");
                 return;
@@ -446,7 +449,7 @@ public class CustomerCLI implements CLI {
         boolean modificationSuccessful = false;
         if (oldCheckInDate.compareTo(reservation.getCheckInDate()) > 0) {
             List<LocalDate> dates = LongStream.range(reservation.getCheckInDate().toEpochDay(), oldCheckInDate.toEpochDay()).mapToObj(LocalDate::ofEpochDay).collect(Collectors.toList());
-            double priceToChangeDate = requestHandler.getPriceForExtraNights(dates, reservation);
+            double priceToChangeDate = Double.parseDouble(df.format(requestHandler.getPriceForExtraNights(dates, reservation)));
             if (priceToChangeDate == -1) {
                 System.out.println("Sorry, but there isn't availability for the days you're looking for");
                 return;
@@ -819,7 +822,7 @@ public class CustomerCLI implements CLI {
             int counter = 1;
             for (RoomListing room : roomCategories) {
                 System.out.print(counter + ") " + room);
-                System.out.println("Total: " + room.getNightlyRate() * numOfNights + System.lineSeparator());
+                System.out.println("Total: " + df.format(room.getNightlyRate() * numOfNights) + System.lineSeparator());
                 counter++;
             }
             System.out.println(counter + ") Go back");

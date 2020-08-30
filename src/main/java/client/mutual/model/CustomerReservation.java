@@ -2,11 +2,14 @@ package client.mutual.model;
 
 import client.customer.model.HotelDetails;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 public class CustomerReservation implements Comparable<CustomerReservation> {
 
     private long id;
+
+    private DecimalFormat df;
 
     private HotelDetails hotel;
 
@@ -23,10 +26,12 @@ public class CustomerReservation implements Comparable<CustomerReservation> {
     private ReservationPaymentInfo paymentInfo;
 
     public CustomerReservation() {
+        df = new DecimalFormat("0.00");
         paymentInfo = new ReservationPaymentInfo();
     }
 
     public CustomerReservation(int id, HotelDetails hotel, Customer customer, LocalDate checkInDate, LocalDate checkOutDate, RoomListing roomListing, double total, ReservationPaymentInfo paymentInfo) {
+        this.df = new DecimalFormat("0.00");
         this.id = id;
         this.hotel = hotel;
         this.customer = customer;
@@ -98,11 +103,11 @@ public class CustomerReservation implements Comparable<CustomerReservation> {
     }
 
     public double getTotal() {
-        return total;
+        return Double.parseDouble(df.format(total));
     }
 
     public void setTotal(double total) {
-        this.total = total;
+        this.total = Double.parseDouble(df.format(total));
     }
 
     @Override

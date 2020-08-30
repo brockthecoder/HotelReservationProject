@@ -1,8 +1,12 @@
 package client.mutual.model;
 
+import java.text.DecimalFormat;
+
 public class RoomListing {
 
     private long roomCategoryId;
+
+    private DecimalFormat df;
 
     private String roomName;
 
@@ -13,9 +17,11 @@ public class RoomListing {
     private double nightlyRate;
 
     public RoomListing() {
+        this.df = new DecimalFormat("0.00");
     }
 
     public RoomListing(int id, String roomName, String description, int maxOccupants, double nightlyRate) {
+        this.df = new DecimalFormat("0.00");
         this.roomCategoryId = id;
         this.roomName = roomName;
         this.description = description;
@@ -56,11 +62,11 @@ public class RoomListing {
     }
 
     public double getNightlyRate() {
-        return nightlyRate;
+        return Double.parseDouble(df.format(nightlyRate));
     }
 
     public void setNightlyRate(double nightlyRate) {
-        this.nightlyRate = nightlyRate;
+        this.nightlyRate = Double.parseDouble(df.format(nightlyRate));
     }
 
     public String descriptionToString() {

@@ -33,8 +33,6 @@ public class ClientCommunicationSocketImpl implements ClientCommunicationSocket 
             throw new NullPointerException("null json request argument");
         }
         try {
-            // TODO
-            System.out.println(jsonRequest);
             outputStream.writeObject(jsonRequest);
         }
         catch (IOException e) {
@@ -43,10 +41,7 @@ public class ClientCommunicationSocketImpl implements ClientCommunicationSocket 
         try {
             Object response = inputStream.readObject();
             if (response instanceof String) {
-                // TODO
-                String responseString = (String) response;
-                System.out.println(responseString);
-                return responseString;
+                return (String) response;
             }
             else {
                 throw new ClassCastException("Received an invalid response from the server...unable to process request");

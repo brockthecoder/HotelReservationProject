@@ -291,7 +291,6 @@ public class CustomerCLI implements CLI {
             System.out.println(System.lineSeparator() + "Here are your reservation details: " + System.lineSeparator());
             System.out.println(reservation);
             System.out.println(System.lineSeparator() + "What would you like to do: " + System.lineSeparator());
-            System.out.println("The reservation id is: " + reservation.getId());
             System.out.println("1) Cancel reservation");
             System.out.println("2) Change payment info");
             System.out.println("3) Change Check-In date");
@@ -338,6 +337,7 @@ public class CustomerCLI implements CLI {
         System.out.print("New Check-Out Date (yyyy-mm-dd): ");
         boolean valid = false;
         double oldTotal = reservation.getTotal();
+        double oldNightlyRate = reservation.getRoomListing().getNightlyRate();
         while (!valid) {
             try {
                 if (input.hasNextLine()) {
@@ -376,6 +376,8 @@ public class CustomerCLI implements CLI {
                         switch (Integer.parseInt(input.nextLine())) {
                             case 1:
                                 reservation.setTotal(reservation.getTotal() + priceToChangeDate);
+                                long numOfNights = reservation.getCheckOutDate().toEpochDay() - reservation.getCheckInDate().toEpochDay();
+                                reservation.getRoomListing().setNightlyRate(Double.parseDouble(df.format(reservation.getTotal() / numOfNights)));
                                 modificationWasSuccessful = requestHandler.modifyReservation(reservation, ReservationModificationType.ADD_NIGHTS);
                                 valid = true;
                                 break;
@@ -410,6 +412,7 @@ public class CustomerCLI implements CLI {
             System.out.println("   New Total: " + reservation.getTotal() + System.lineSeparator());
         }
         else {
+            reservation.getRoomListing().setNightlyRate(oldNightlyRate);
             reservation.setTotal(oldTotal);
             reservation.setCheckOutDate(oldCheckOutDate);
             System.out.println("Sorry there was a problem modifying your Check-Out Date, please try again later!");
@@ -424,6 +427,7 @@ public class CustomerCLI implements CLI {
         LocalDate oldCheckInDate = reservation.getCheckInDate();
         boolean modificationWasSuccessful = false;
         double oldTotal = reservation.getTotal();
+        double oldNightlyRate = reservation.getRoomListing().getNightlyRate();
         System.out.println(System.lineSeparator() + "Change Check-In Date: " + System.lineSeparator());
         System.out.print("New Check-In Date (yyyy-mm-dd): ");
         boolean valid = false;
@@ -466,6 +470,8 @@ public class CustomerCLI implements CLI {
                         switch (Integer.parseInt(input.nextLine())) {
                             case 1:
                                 reservation.setTotal(reservation.getTotal() + priceToChangeDate);
+                                long numOfNights = reservation.getCheckOutDate().toEpochDay() - reservation.getCheckInDate().toEpochDay();
+                                reservation.getRoomListing().setNightlyRate(Double.parseDouble(df.format(reservation.getTotal() / numOfNights)));
                                 modificationSuccessful = requestHandler.modifyReservation(reservation, ReservationModificationType.ADD_NIGHTS);
                                 valid = true;
                                 break;
@@ -500,6 +506,7 @@ public class CustomerCLI implements CLI {
             System.out.println("   New Total: " + reservation.getTotal() + System.lineSeparator());
         }
         else {
+            reservation.getRoomListing().setNightlyRate(oldNightlyRate);
             reservation.setTotal(oldTotal);
             reservation.setCheckInDate(oldCheckInDate);
             System.out.println("Sorry there was a problem modifying your Check-In Date, please try again! ");

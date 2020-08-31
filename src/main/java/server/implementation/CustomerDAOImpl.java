@@ -17,6 +17,7 @@ import server.utilities.SQLStatements;
 
 import java.sql.*;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,10 +26,11 @@ import java.util.stream.LongStream;
 public class CustomerDAOImpl implements CustomerDAO {
 
     private final ConnectionPool connectionPool;
-
+    private DecimalFormat df;
     private MutualDAO mutualDAO;
 
     public CustomerDAOImpl(ConnectionPool connectionPool, MutualDAO mutualDAO) {
+        this.df = new DecimalFormat("0.00");
         this.connectionPool = connectionPool;
         this.mutualDAO = mutualDAO;
     }
@@ -297,7 +299,8 @@ public class CustomerDAOImpl implements CustomerDAO {
                 updateStatement.setDate(2, Date.valueOf(reservation.getCheckOutDate()));
                 double total = reservationDates.size() * dateDetails.getNightlyRate();
                 updateStatement.setDouble(3, total);
-                updateStatement.setLong(4, reservation.getId());
+                updateStatement.setDouble(4, dateDetails.getNightlyRate());
+                updateStatement.setLong(5, reservation.getId());
                 int numOfRowsUpdated = updateStatement.executeUpdate();
                 if (numOfRowsUpdated != 1) {
                     connection.rollback();
@@ -314,7 +317,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             return false;
 
         }
-        catch (SQLException e) {
+        catch (NullPointerException | SQLException e) {
             e.printStackTrace();
             System.err.println("An error occurred while removing nights from reservation in the database");
             return false;
@@ -353,6 +356,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
         try {
             List<LocalDate> newDates = LongStream.range(reservation.getCheckInDate().toEpochDay(), reservation.getCheckOutDate().toEpochDay()).mapToObj(LocalDate::ofEpochDay).collect(Collectors.toList());
+            long numOfNights = newDates.size();
             ReservationDateDetails dateDetails = getDateDetails(reservation.getId());
             if (dateDetails == null) {
                 return false;
@@ -369,7 +373,8 @@ public class CustomerDAOImpl implements CustomerDAO {
                     updateStatement.setDate(1, Date.valueOf(reservation.getCheckInDate()));
                     updateStatement.setDate(2, Date.valueOf(reservation.getCheckOutDate()));
                     updateStatement.setDouble(3, reservation.getTotal());
-                    updateStatement.setLong(4, reservation.getId());
+                    updateStatement.setDouble(4, Double.parseDouble(df.format(reservation.getTotal() / numOfNights)));
+                    updateStatement.setLong(5, reservation.getId());
                     int numOfRowsUpdated = updateStatement.executeUpdate();
                     if (numOfRowsUpdated != 1) {
                         connection.rollback();

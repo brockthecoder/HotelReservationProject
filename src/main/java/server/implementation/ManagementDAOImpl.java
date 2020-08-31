@@ -16,6 +16,7 @@ import server.utilities.SQLStatements;
 
 import java.sql.*;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
@@ -25,8 +26,10 @@ public class ManagementDAOImpl implements ManagementDAO {
 
     private final ConnectionPool connectionPool;
     private MutualDAO mutualDAO;
+    private DecimalFormat df;
 
     public ManagementDAOImpl(ConnectionPool connectionPool, MutualDAO mutualDAO) {
+        this.df = new DecimalFormat("0.00");
         this.connectionPool = connectionPool;
         this.mutualDAO = mutualDAO;
     }
@@ -532,7 +535,7 @@ public class ManagementDAOImpl implements ManagementDAO {
                     case ADD:
                         updateStatement = connection.prepareStatement(SQLStatements.addRoomAvailabilitySingleNight);
                         updateStatement.setLong(1, updateRequest.getRoomCategoryId());
-                        updateStatement.setDouble(2, update.getNightlyRate());
+                        updateStatement.setDouble(2, Double.parseDouble(df.format(update.getNightlyRate())));
                         updateStatement.setDate(3, Date.valueOf(update.getDate()));
                         updateStatement.setLong(4, update.getNumOfRooms());
                         updateStatement.setDouble(5, update.getNightlyRate());

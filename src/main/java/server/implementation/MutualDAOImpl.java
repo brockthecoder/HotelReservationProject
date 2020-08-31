@@ -9,6 +9,7 @@ import server.api.MutualDAO;
 import server.utilities.SQLStatements;
 
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
@@ -18,8 +19,10 @@ import java.util.Set;
 public class MutualDAOImpl implements MutualDAO {
 
     private ConnectionPool connectionPool;
+    private DecimalFormat df;
 
     public MutualDAOImpl(ConnectionPool connectionPool) {
+        this.df = new DecimalFormat("0.00");
         this.connectionPool = connectionPool;
     }
 
@@ -111,7 +114,7 @@ public class MutualDAOImpl implements MutualDAO {
                 insertStatement.setDate(3, Date.valueOf(reservationDetails.getCheckOutDate()));
                 insertStatement.setLong(4, reservationDetails.getRoomListing().getRoomCategoryId());
                 insertStatement.setDouble(5, reservationDetails.getTotal());
-                insertStatement.setDouble(6, reservationDetails.getRoomListing().getNightlyRate());
+                insertStatement.setDouble(6, Double.parseDouble(df.format(reservationDetails.getTotal() / numOfNights)));
                 insertStatement.setString(7, reservationDetails.getPaymentInfo().getCardNumber());
                 insertStatement.setString(8, reservationDetails.getPaymentInfo().getCvv());
                 insertStatement.setString(9, reservationDetails.getPaymentInfo().getZipCode());

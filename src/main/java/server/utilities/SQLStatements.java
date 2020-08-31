@@ -194,7 +194,7 @@ public class SQLStatements {
 
     public static final String selectReservationDates = "select check_in_date, check_out_date, room_category_id, nightly_rate, total_price from customer_reservations where id = ?";
 
-    public static final String updateReservationDates = "update customer_reservations set check_in_date = ?, check_out_date = ?, total_price = ? where id = ?";
+    public static final String updateReservationDates = "update customer_reservations set check_in_date = ?, check_out_date = ?, total_price = ?, nightly_rate = ? where id = ?";
 
     public static final String selectAllAvailability =
             "select round(avg(availability_listings.nightly_rate)::numeric, 2), room_categories.id, room_categories.name, " +

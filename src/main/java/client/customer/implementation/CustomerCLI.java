@@ -971,7 +971,7 @@ public class CustomerCLI implements CLI {
                                     return false;
                                 }
                                 System.out.println(System.lineSeparator() + "Your reservation is confirmed, thank you for booking with us!");
-                                System.out.println("Your reservation number is:" + reservationId);
+                                System.out.println("Your reservation number is: " + reservationId);
                                 System.out.println(System.lineSeparator() + "See you soon!");
                                 return true;
                             case 2:

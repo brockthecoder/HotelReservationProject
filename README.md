@@ -10,6 +10,6 @@ Java project with 3 parts:
 
   3) Server: 
          Written in java, uses PostgreSQL database for persisting hotel and reservation data,
-         communication is with client is done using websockets. New client connections are assigned
+         communication with client is done using websockets. New client connections are assigned
          to worker threads that handle all client requests, until the client closes the connection.
          Requests and responses are sent in JSON format over the socket streams.

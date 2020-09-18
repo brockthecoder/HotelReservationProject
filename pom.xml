@@ -27,11 +27,48 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                        <id>client-build</id>
                         <configuration>
-                            <finalName>HotelAppServer</finalName>
+                            <finalName>Client</finalName>
+                            <archive>
+                                <manifest>
+                                    <mainClass>ClientMain</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <id>server-build</id>
+                        <configuration>
+                            <finalName>Server</finalName>
                             <archive>
                                 <manifest>
                                     <mainClass>ServerMain</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <id>clean-up-build</id>
+                        <configuration>
+                            <finalName>CleanUp</finalName>
+                            <archive>
+                                <manifest>
+                                    <mainClass>server.utilities.AvailabilityCleaner</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

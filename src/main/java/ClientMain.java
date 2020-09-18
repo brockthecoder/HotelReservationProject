@@ -12,7 +12,7 @@ public class ClientMain {
     public static void main(String[] args) {
         while (true) {
             System.out.println();
-            System.out.println("Would you like to access:");
+            System.out.println("What would you like to access:");
             System.out.println("1) Customer Console");
             System.out.println("2) Management Console");
             System.out.println("3) Exit");

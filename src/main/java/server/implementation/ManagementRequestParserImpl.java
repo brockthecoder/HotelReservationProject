@@ -254,4 +254,14 @@ public class ManagementRequestParserImpl implements ManagementRequestParser {
             return null;
         }
     }
+
+    @Override
+    public long parseOperatingHoursRequest(JSONObject request) {
+        return JSONParsingUtils.getLongFromJSON("hotel_id", request);
+    }
+
+    @Override
+    public long parseAmenityRequest(JSONObject request) {
+        return JSONParsingUtils.getLongFromJSON("hotel_id", request);
+    }
 }

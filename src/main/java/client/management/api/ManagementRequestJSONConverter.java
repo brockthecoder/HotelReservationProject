@@ -34,4 +34,8 @@ public interface ManagementRequestJSONConverter {
 
     String getCloseConnectionRequest();
 
+    String getOperatingHoursRequest(long hotelID);
+
+    String getAmenityRequest(long hotelID);
+
 }

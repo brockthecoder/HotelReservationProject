@@ -227,6 +227,12 @@ public class ManagementCLI implements CLI {
                             valid = true;
                         }
                         else {
+                            ManagementHotelDetails hotelDetails = account.getHotels().get(selection - 1);
+                            if (hotelDetailsNotComplete(hotelDetails)){
+                                hotelDetails.setRoomCategories(requestHandler.getRoomCategories(hotelDetails));
+                                hotelDetails.setOperatingHours(requestHandler.getOperatingHours(hotelDetails.getId()));
+                                hotelDetails.setAmenities(requestHandler.getAmenities(hotelDetails.getId()));
+                            }
                             manageHotel(account.getHotels().get(selection - 1), account);
                             valid = true;
                         }
@@ -237,6 +243,17 @@ public class ManagementCLI implements CLI {
                 }
             }
         }
+    }
+
+    private boolean hotelDetailsNotComplete(ManagementHotelDetails hotel) {
+        if (hotel.getRoomCategories() == null || hotel.getRoomCategories().size() == 0)
+            return true;
+        if (hotel.getAmenities() == null || hotel.getAmenities().size() == 0)
+            return true;
+        if (hotel.getOperatingHours() == null || hotel.getOperatingHours().size() == 0)
+            return true;
+
+        return false;
     }
 
 

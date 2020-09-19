@@ -32,4 +32,8 @@ public interface ManagementRequestParser {
 
     AvailabilityUpdateRequest parseAvailabilityUpdateRequest(JSONObject request);
 
+    long parseOperatingHoursRequest(JSONObject request);
+
+    long parseAmenityRequest(JSONObject request);
+
 }

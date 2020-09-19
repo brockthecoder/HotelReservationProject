@@ -301,4 +301,48 @@ public class ServerManagementResponseJSONConverterImpl implements ServerManageme
         return availabilityMap;
 
     }
+
+    @Override
+    public Set<OperatingHours> parseOperatingHours(String json) {
+
+        if (json == null) {
+            return null;
+        }
+
+        try {
+            parser.reset();
+            JSONObject jsonObject = (JSONObject) parser.parse(json);
+            String status = (String) jsonObject.get("status");
+            if (status.equals("failure")) {
+                return null;
+            }
+            return JSONParsingUtils.getOperatingHoursFromJSON("operating_hours", jsonObject);
+        }
+        catch (ParseException | ClassCastException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Set<AmenityType> parseAmenities(String json) {
+        if (json == null) {
+            return null;
+        }
+
+        try {
+            parser.reset();
+            JSONObject jsonObject = (JSONObject) parser.parse(json);
+            String status = (String) jsonObject.get("status");
+            if (status.equals("failure")) {
+                return null;
+            }
+            JSONArray amenityArray = (JSONArray) jsonObject.get("amenities");
+            return JSONParsingUtils.getAmenitiesFromJSON(amenityArray);
+        }
+        catch (ParseException | ClassCastException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -1,9 +1,6 @@
 package client.management.api;
 
-import client.management.model.AvailabilityListing;
-import client.management.model.ManagementAccount;
-import client.management.model.ManagementHotelDetails;
-import client.management.model.RoomCategory;
+import client.management.model.*;
 import client.mutual.model.CustomerReservation;
 import client.mutual.model.RoomListing;
 
@@ -28,4 +25,7 @@ public interface ServerManagementResponseJSONConverter {
 
     Map<LocalDate, AvailabilityListing> parseCategoryAvailability(String json);
 
+    Set<OperatingHours> parseOperatingHours(String json);
+
+    Set<AmenityType> parseAmenities(String json);
 }

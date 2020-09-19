@@ -17,9 +17,7 @@ import server.utilities.SQLStatements;
 import java.sql.*;
 import java.sql.Date;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Period;
+import java.time.*;
 import java.util.*;
 
 public class ManagementDAOImpl implements ManagementDAO {
@@ -36,6 +34,8 @@ public class ManagementDAOImpl implements ManagementDAO {
 
     @Override
     public ManagementAccount getAccount(ManagementAccount accountDetails) {
+        System.out.println("Attempting to load management account from database");
+        Instant start = Instant.now();
         if (accountDetails == null || accountDetails.getEmail() == null || accountDetails.getPassword() == null) {
             return null;
         }
@@ -46,13 +46,14 @@ public class ManagementDAOImpl implements ManagementDAO {
                 ResultSet resultSet = accountSelectStatement.executeQuery();
                 if (resultSet.next()) {
                     accountDetails.setId(resultSet.getLong(1));
-
                     try (PreparedStatement selectStatement = connection.prepareStatement(SQLStatements.selectAccount)) {
                         selectStatement.setString(1, accountDetails.getEmail());
                         selectStatement.setString(2, accountDetails.getPassword());
                         ResultSet fullResultSet = selectStatement.executeQuery();
                         parseManagementSignIn(fullResultSet, accountDetails);
                         connection.commit();
+                        Instant end = Instant.now();
+                        System.out.println("Took " + Duration.between(start, end).toMillis() + " milliseconds to build management account from database");
                         return accountDetails;
                     }
                 }
@@ -82,13 +83,8 @@ public class ManagementDAOImpl implements ManagementDAO {
             hotel.setNumOfFloors(resultSet.getLong(10));
             hotel.setCheckInTime(resultSet.getTime(11).toLocalTime());
             hotel.setCheckOutTime(resultSet.getTime(12).toLocalTime());
-            hotel.setAmenities(getAmenities(hotel.getId()));
-            hotel.setRoomCategories(getRoomCategories(hotel.getId()));
-            hotel.setOperatingHours(getOperatingHours(hotel.getId()));
             accountDetails.getHotels().add(hotel);
         }
-
-
     }
 
     @Override

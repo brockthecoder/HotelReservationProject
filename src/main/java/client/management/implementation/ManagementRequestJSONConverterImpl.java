@@ -366,6 +366,26 @@ public class ManagementRequestJSONConverterImpl implements ManagementRequestJSON
     }
 
     @Override
+    public String getOperatingHoursRequest(long hotelID) {
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("requester", Requester.MANAGEMENT.name());
+        jsonObject.put("request", ManagementRequestType.GET_OPERATING_HOURS.name());
+        jsonObject.put("hotel_id", hotelID);
+        return jsonObject.toJSONString();
+    }
+
+    @Override
+    public String getAmenityRequest(long hotelID) {
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("requester", Requester.MANAGEMENT.name());
+        jsonObject.put("request", ManagementRequestType.GET_AMENITIES.name());
+        jsonObject.put("hotel_id", hotelID);
+        return jsonObject.toJSONString();
+    }
+
+    @Override
     public String getCloseConnectionRequest() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("requester", "management");

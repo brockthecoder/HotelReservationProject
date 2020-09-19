@@ -1,8 +1,6 @@
 package server.api;
 
-import client.management.model.AvailabilityListing;
-import client.management.model.ManagementAccount;
-import client.management.model.RoomCategory;
+import client.management.model.*;
 import client.mutual.model.CustomerReservation;
 import client.mutual.model.RoomListing;
 
@@ -37,4 +35,7 @@ public interface ManagementResponseBuilder {
 
     String buildAvailabilityUpdateResponse(boolean wasSuccess);
 
+    String buildAmenityResponse(Set<AmenityType> amenities);
+
+    String buildOperatingHoursResponse(Set<OperatingHours> operatingHours);
 }

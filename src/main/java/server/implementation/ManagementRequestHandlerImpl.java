@@ -95,6 +95,16 @@ public class ManagementRequestHandlerImpl implements ManagementRequestHandler {
                 boolean wasSuccess = dao.updateAvailability(updateRequest);
                 return responseBuilder.buildAvailabilityUpdateResponse(wasSuccess);
             }
+            case GET_AMENITIES: {
+                long hotelID = requestParser.parseAmenityRequest(request);
+                Set<AmenityType> amenities  = dao.getAmenities(hotelID);
+                return responseBuilder.buildAmenityResponse(amenities);
+            }
+            case GET_OPERATING_HOURS: {
+                long hotelId = requestParser.parseOperatingHoursRequest(request);
+                Set<OperatingHours> operatingHours = dao.getOperatingHours(hotelId);
+                return responseBuilder.buildOperatingHoursResponse(operatingHours);
+            }
         }
 
         JSONObject jsonObject = new JSONObject();

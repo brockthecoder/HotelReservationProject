@@ -64,19 +64,26 @@ public class JSONParsingUtils {
             hotel.setPhoneNumber((String) hotelJSON.get("phone_number"));
             hotel.setStreetAddress((String) hotelJSON.get("street_address"));
             hotel.setState((String) hotelJSON.get("state"));
+            hotel.setCity((String) hotelJSON.get("city"));
             hotel.setCheckOutTime(LocalTime.parse((String) hotelJSON.get("check_out_time")));
             hotel.setCheckInTime(LocalTime.parse((String) hotelJSON.get("check_in_time")));
             hotel.setCheckInAge((long) hotelJSON.get("check_in_age"));
             hotel.setNumOfFloors((long) hotelJSON.get("num_of_floors"));
             hotel.setHotelOwner(owner);
-            hotel.setAmenities(getAmenitiesFromJSON((JSONArray) hotelJSON.get("amenities")));
-            hotel.setOperatingHours(getOperatingHoursFromJSON("operating_hours", hotelJSON));
-            Set<RoomCategory> roomCategories = new HashSet<>();
-            JSONArray roomCategoryArray = (JSONArray) hotelJSON.get("room_categories");
-            for (Object roomCategoryObject : roomCategoryArray) {
-                roomCategories.add(getRoomCategoryFromJSON((JSONObject) roomCategoryObject));
+            if (hotelJSON.get("amenities") != null) {
+                hotel.setAmenities(getAmenitiesFromJSON((JSONArray) hotelJSON.get("amenities")));
             }
-            hotel.setRoomCategories(roomCategories);
+            if (hotelJSON.get("operating_hours") != null) {
+                hotel.setOperatingHours(getOperatingHoursFromJSON("operating_hours", hotelJSON));
+            }
+            if (hotelJSON.get("room_categories") != null) {
+                Set<RoomCategory> roomCategories = new HashSet<>();
+                JSONArray roomCategoryArray = (JSONArray) hotelJSON.get("room_categories");
+                for (Object roomCategoryObject : roomCategoryArray) {
+                    roomCategories.add(getRoomCategoryFromJSON((JSONObject) roomCategoryObject));
+                }
+                hotel.setRoomCategories(roomCategories);
+            }
             return hotel;
         }
         catch (ClassCastException | NullPointerException | DateTimeParseException e) {

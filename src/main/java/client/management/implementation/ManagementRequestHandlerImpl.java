@@ -111,6 +111,20 @@ public class ManagementRequestHandlerImpl implements ManagementRequestHandler {
     }
 
     @Override
+    public Set<OperatingHours> getOperatingHours(long hotelID) {
+        String jsonRequest = requestConverter.getOperatingHoursRequest(hotelID);
+        String jsonResponse = communicationSocket.sendRequest(jsonRequest);
+        return responseConverter.parseOperatingHours(jsonResponse);
+    }
+
+    @Override
+    public Set<AmenityType> getAmenities(long hotelID) {
+        String jsonRequest = requestConverter.getAmenityRequest(hotelID);
+        String jsonResponse = communicationSocket.sendRequest(jsonRequest);
+        return responseConverter.parseAmenities(jsonResponse);
+    }
+
+    @Override
     public void closeConnection() {
         String jsonRequest = requestConverter.getCloseConnectionRequest();
         communicationSocket.close(jsonRequest);

@@ -36,4 +36,8 @@ public interface ManagementRequestHandler {
     boolean updateAvailability(ManagementHotelDetails hotel, RoomCategory roomCategory, List<AvailabilityUpdateTuple> datesAndRoomCount);
 
     void closeConnection();
+
+    Set<OperatingHours> getOperatingHours(long hotelID);
+
+    Set<AmenityType> getAmenities(long hotelID);
 }

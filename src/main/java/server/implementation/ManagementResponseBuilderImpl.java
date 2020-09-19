@@ -1,12 +1,10 @@
 package server.implementation;
 
-import client.management.model.AvailabilityListing;
-import client.management.model.ManagementAccount;
-import client.management.model.ManagementHotelDetails;
-import client.management.model.RoomCategory;
+import client.management.model.*;
 import client.mutual.model.CustomerReservation;
 import client.mutual.model.RoomListing;
 import mutual.utilities.JSONBuilderUtils;
+import mutual.utilities.JSONParsingUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import server.api.ManagementResponseBuilder;
@@ -158,6 +156,34 @@ public class ManagementResponseBuilderImpl implements ManagementResponseBuilder 
                 jsonArray.add(availabilityObject);
             }
             jsonObject.put("availability", jsonArray);
+            return jsonObject.toJSONString();
+        }
+        catch (NullPointerException e) {
+            jsonObject.put("status", "failure");
+            return jsonObject.toJSONString();
+        }
+    }
+
+    @Override
+    public String buildAmenityResponse(Set<AmenityType> amenities) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("status", "success");
+            jsonObject.put("amenities", JSONBuilderUtils.buildJSONAmenities(amenities));
+            return jsonObject.toJSONString();
+        }
+        catch (NullPointerException e) {
+            jsonObject.put("status", "failure");
+            return jsonObject.toJSONString();
+        }
+    }
+
+    @Override
+    public String buildOperatingHoursResponse(Set<OperatingHours> operatingHours) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("status", "success");
+            jsonObject.put("operating_hours", JSONBuilderUtils.buildJSONOperatingHours(operatingHours));
             return jsonObject.toJSONString();
         }
         catch (NullPointerException e) {

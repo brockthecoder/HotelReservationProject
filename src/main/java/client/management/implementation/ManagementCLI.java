@@ -200,7 +200,7 @@ public class ManagementCLI implements CLI {
 
         while (true) {
             System.out.println(System.lineSeparator() + "Your Account:" + System.lineSeparator());
-
+            account.getHotels().sort(Comparator.comparing(ManagementHotelDetails::getCity));
             int counter = 1;
             if (account.getHotels() != null) {
                 for (ManagementHotelDetails hotel : account.getHotels()) {

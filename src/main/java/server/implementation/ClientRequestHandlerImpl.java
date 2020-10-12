@@ -3,6 +3,7 @@ package server.implementation;
 import server.api.*;
 import server.model.Request;
 
+import java.io.IOException;
 import java.net.Socket;
 
 public class ClientRequestHandlerImpl implements ClientRequestHandler {
@@ -11,7 +12,7 @@ public class ClientRequestHandlerImpl implements ClientRequestHandler {
     private ManagementRequestHandler managementRequestHandler;
     private CustomerRequestHandler customerRequestHandler;
 
-    public ClientRequestHandlerImpl(Socket socket, ConnectionPool connectionPool) {
+    public ClientRequestHandlerImpl(Socket socket, ConnectionPool connectionPool) throws IOException {
         this.communicationSocket = new ServerCommunicationSocketImpl(socket);
         this.managementRequestHandler = new ManagementRequestHandlerImpl(connectionPool);
         this.customerRequestHandler = new CustomerRequestHandlerImpl(connectionPool);

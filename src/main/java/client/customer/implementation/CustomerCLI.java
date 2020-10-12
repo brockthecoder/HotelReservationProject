@@ -20,6 +20,8 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -911,7 +913,12 @@ public class CustomerCLI implements CLI {
             }
             System.out.print("Phone number: ");
             if (input.hasNextLine()) {
-                cb.withPhoneNumber(input.nextLine());
+                String phoneNumber = input.nextLine();
+                while (!isValidPhoneNumber(phoneNumber)) {
+                    System.out.print("Invalid entry please try again (000) 000-000: ");
+                    phoneNumber = input.nextLine();
+                }
+                cb.withPhoneNumber(phoneNumber);
             }
             System.out.print("Street Address: ");
             if (input.hasNextLine()) {
@@ -1017,5 +1024,11 @@ public class CustomerCLI implements CLI {
                 System.out.print("Invalid choice try again: ");
             }
         }
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        Pattern pattern = Pattern.compile("^\\([1-9]\\d{2}\\)\\s\\d{3}-\\d{4}$");
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
     }
 }

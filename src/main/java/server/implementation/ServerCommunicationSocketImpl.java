@@ -13,7 +13,7 @@ public class ServerCommunicationSocketImpl implements ServerCommunicationSocket 
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
 
-    public ServerCommunicationSocketImpl(Socket socket) {
+    public ServerCommunicationSocketImpl(Socket socket) throws IOException {
         this.socket = socket;
         try {
             this.inputStream = new ObjectInputStream(socket.getInputStream());
@@ -22,8 +22,14 @@ public class ServerCommunicationSocketImpl implements ServerCommunicationSocket 
             System.out.println(inputStream.readObject().toString());
             outputStream.flush();
         }
-        catch (ClassNotFoundException | IOException e) {
-            throw new RuntimeException("An error occurred while initializing the streams");
+        catch (IOException e) {
+            System.out.println("An exception occurred while attempting to initialize the communication socket");
+            throw e;
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("An exception occurred while reading from the input stream");
+            e.printStackTrace();
+            throw new IOException("Exception in socket initialization");
         }
     }
 

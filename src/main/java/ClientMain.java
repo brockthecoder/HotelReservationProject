@@ -29,7 +29,7 @@ public class ClientMain {
                     new ManagementCLI().initialize();
                     break;
                 default:
-                    System.exit(0);
+                    return;
             }
         }
     }

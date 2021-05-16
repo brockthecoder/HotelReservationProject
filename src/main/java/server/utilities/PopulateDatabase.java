@@ -34,13 +34,14 @@ public class PopulateDatabase {
         ManagementAccount account = new ManagementAccount();
         System.out.println("Loading account");
         account.setEmail("management@hotelfinder.com");
-        account.setPassword("");
+        account.setPassword("password");
         account = dao.getAccount(account);
         System.out.println("Creating thread pool");
         ExecutorService executorService = Executors.newFixedThreadPool(100);
         for (ManagementHotelDetails hotel : account.getHotels()) {
             System.out.println("Working on: ");
             System.out.println(hotel);
+            hotel.setRoomCategories(dao.getRoomCategories(hotel.getId()));
             for (RoomCategory roomCategory : hotel.getRoomCategories()) {
                 AvailabilityUpdateRequest request = new AvailabilityUpdateRequest();
                 request.setHotelID(hotel.getId());

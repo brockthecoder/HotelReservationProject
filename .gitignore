@@ -1,6 +1,13 @@
-# Project exclude paths
-/target/archive-tmp
-/target/classes
-/target/maven-archiver
-/target/maven-status
-/target/HotelReservationProject-1.0-SNAPSHOT.jar
+/target/
+HotelCustomerCommandLineInterfaceBlueprint.docx
+HotelFinderManagementConsole.docx
+Client-jar-with-dependencies.jar
+/connection_directions/*
+/runServer.sh
+
+# OS generated files
+*.DS_Store 
+
+# Intellij generated files
+*.idea
+*.iml

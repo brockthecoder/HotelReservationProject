@@ -4,6 +4,7 @@ FROM openjdk:17-slim
 # websocket handshake port
 EXPOSE 1502
 
+# Set the working directory within the container
 WORKDIR /app
 
 # Only thing need for the server to run is the fat jar file

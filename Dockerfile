@@ -1,5 +1,7 @@
+# lightweight java image
 FROM openjdk:17-slim
 
+# websocket handshake port
 EXPOSE 1502
 
 WORKDIR /app

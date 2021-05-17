@@ -1,3 +1,4 @@
+# lightweight java image
 FROM openjdk:17-slim
 
 EXPOSE 1502
